@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use our deep k-learning framework, please cite it as below."
+authors:
+  - family-names: Guo 
+    given-names: Zhen
+    orcid: https://orcid.org/0000-0002-1347-3451
+title: "Physics-assisted Generative Adversarial Network for X-Ray Tomography"
+version: 1.0.0
+date-released: 2021-12-01
