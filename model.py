@@ -17,8 +17,8 @@ import tensorflow_addons as tfa
 from tensorflow.keras import layers
 
 def norm_to_255(tensor):
-    "This function normalize the data to the range between 0 to 255
-    "
+    """This function normalize the data to the range between 0 to 255
+    """
     tf_max = tf.math.reduce_max(tensor)
     tf_min = tf.math.reduce_min(tensor)
     return 255 * (tensor - tf_min) / (tf_max - tf_min)
@@ -387,13 +387,13 @@ def d_hinge_loss(logits_real, logits_fake):
     return (tf.reduce_mean(loss_real) + tf.reduce_mean(loss_fake)) * (1.0 / batch) 
 
 def g_hinge_loss(logits_fake):
-    "hinge loss for generator
-    "
+    """hinge loss for generator
+    """
     return -tf.reduce_mean(logits_fake) * (1.0 / batch)
 
 def create_generator_att(gf_dim = 64, batch_size=5):
-    "generator model with axial attention
-    "
+    """generator model with axial attention
+    """
     input_layers = tf.keras.layers.Input(shape=(16, 16, 8), batch_size=batch_size) 
     input_layers0 = tf.expand_dims(input_layers, axis=-1)
 
@@ -425,8 +425,8 @@ def create_generator_att(gf_dim = 64, batch_size=5):
     return tf.keras.models.Model(input_layers, x)
 
 def create_generator(gf_dim = 64, batch_size=5):
-    "generator model with convolution
-    "
+    """generator model with convolution
+    """
     input_layers = tf.keras.layers.Input(shape=(16, 16, 8), batch_size=batch_size) 
     input_layers0 = tf.expand_dims(input_layers, axis=-1)
 
@@ -463,8 +463,8 @@ def create_generator(gf_dim = 64, batch_size=5):
     return tf.keras.models.Model(input_layers, x)
 
 def make_discriminator_model(image_size=16, filters=16, df_dim=32, batch_size=5):
-    "discriminator model
-    "
+    """discriminator model
+    """
     input_layers = tf.keras.layers.Input((image_size, image_size, 8), batch_size=batch_size)
     input_layers0 = tf.expand_dims(input_layers, axis=-1)
 
