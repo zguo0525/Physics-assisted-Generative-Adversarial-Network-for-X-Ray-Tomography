@@ -135,62 +135,6 @@ for n in tqdm(range(0, 10)):
                 print ('pure_gen_loss = ' + str(gen_loss.numpy()))
         return gen_loss_list, expected_loss_list, disc_loss_list
     
-    def create_generator(gf_dim = 64, batch_size=5):
-        
-        input_layers = tf.keras.layers.Input(shape=(16, 16, 8), batch_size=batch_size) 
-        input_layers0 = tf.expand_dims(input_layers, axis=-1)
-
-        x11 = DBlock3D(gf_dim, downsample=True, name='down_block_0')(input_layers0)
-        x22 = DBlock3D(gf_dim*2, downsample=True, name='down_block_1')(x11)
-        x22 = BatchNormalization()(x22)
-        x22 = tf.nn.relu(x22)
-        x33 = DBlock3D(gf_dim*4, downsample=True, name='down_block_2')(x22)
-        x33 = BatchNormalization()(x33)
-        x33 = tf.nn.relu(x33)
-        x44 = DBlock3D(gf_dim*8, downsample=True, name='down_block_3')(x33)
-        x44 = BatchNormalization()(x44)
-        x44 = tf.nn.relu(x44)
-
-        x1 = GBlock3D(gf_dim*8, upsample=True, name='up_block_0')(x44)
-        x1 = Dropout(0.5)(x1)
-        x1 = Concatenate()([x1, x33])
-        x2 = GBlock3D(gf_dim*4, upsample=True, name='up_block_1')(x1)
-        x2 = Dropout(0.5)(x2)
-        x2 = Concatenate()([x2, x22])
-        x3 = GBlock3D(gf_dim*2, upsample=True, name='up_block_2')(x2)
-
-        x4 = Concatenate()([x3, x11])
-        x = GBlock3D(gf_dim, upsample=True, name='up_block_' + str(4))(x4)
-        x = tf.keras.layers.BatchNormalization(momentum=0.9999,
-                                                    epsilon=1e-5,
-                                                    name='up_bn_out')(x)
-        x = tf.keras.layers.ReLU()(x)
-        x = Dropout(0.25)(x)
-        x = SNConv3d(1, (3, 3, 3), (1, 1, 1), name='up_conv_out')(x)
-        x = tf.nn.tanh(x)
-        x = x[:, :, :, :, 0]
-
-        return tf.keras.models.Model(input_layers, x)
-
-    def make_discriminator_model(image_size=16, filters=16, df_dim=64, batch_size=5):
-        input_layers = tf.keras.layers.Input((image_size, image_size, 8), batch_size=batch_size)
-        input_layers0 = tf.expand_dims(input_layers, axis=-1)
-
-        x = DBlock3D(df_dim, downsample=True, name='block_1')(input_layers0)
-        x = Dropout(0.25)(x)
-        x = DBlock3D(df_dim*2, downsample=True, name='block_2')(x)
-        x = Dropout(0.25)(x)
-        x = DBlock3D(df_dim*4, downsample=True, name='block_3')(x)
-        x = Dropout(0.25)(x)
-        x = DBlock3D(df_dim*8, downsample=False, name='block_4')(x)
-        x = Dropout(0.25)(x)
-        x = DBlock3D(df_dim*16, downsample=False, name='block_5')(x)
-        x = tf.nn.relu(x)
-        x = tf.reduce_sum(x, axis=[1, 2, 3])
-        x = SNLinear(1, name='linear_out')(x)
-
-        return tf.keras.models.Model([input_layers], x)
-    
     batch = 25
     decoder = create_generator(batch_size=batch)
     decoder.summary()
