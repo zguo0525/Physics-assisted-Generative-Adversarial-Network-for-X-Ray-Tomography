@@ -1,5 +1,5 @@
 # Physics-assisted Generative Adversarial Network
-====================
+==================================================
 
 This repository contains python script needed to reproduce the results and figures in the paper "Physics-assisted Generative Adversarial Network".
 
