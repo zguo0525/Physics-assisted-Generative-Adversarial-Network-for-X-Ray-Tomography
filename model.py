@@ -44,7 +44,6 @@ def _l2normalize(v, eps=1e-12):
     """
     return v / (tf.reduce_sum(v**2)**0.5 + eps)
 
-
 def spectral_norm(weights, u, num_iters, training):
     """spectral_norm
     """
@@ -150,7 +149,6 @@ def usample3d(x):
 
     undo_transpose = tf.transpose(undo_reshape, [0,2,3,1,4]) 
     return undo_transpose
-
 
 class GBlock3D(layers.Layer):
     """upsampling blcok with spectral norm Conv3D layer. 
