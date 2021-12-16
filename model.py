@@ -378,8 +378,8 @@ class DBlock3D_att(layers.Layer):
         return tf.nn.relu(x + fx)   
     
 def d_hinge_loss(logits_real, logits_fake):
-    "hinge loss for discriminator
-    "
+    """hinge loss for discriminator
+    """
     loss_real = tf.nn.relu(1.0 - logits_real)
     loss_fake = tf.nn.relu(1.0 + logits_fake)
     return (tf.reduce_mean(loss_real) + tf.reduce_mean(loss_fake)) * (1.0 / batch) 
