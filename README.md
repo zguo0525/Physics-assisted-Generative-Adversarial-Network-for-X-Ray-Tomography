@@ -9,3 +9,4 @@ Organization
 ------------
 - model.py contains the network archtecture
 - train.py contains the training script
+- circuitFaker contains the algotihm to generate synthetic circuit layout
